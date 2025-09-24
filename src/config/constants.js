@@ -5,6 +5,7 @@ export const ANIVERSARIO_TEXTO = "11 de octubre de 2025";
 export const STORAGE_KEY_UNLOCKED = "aniversario_unlocked";
 export const STORAGE_UNLOCKED_VALUE = '1';
 export const ROUTE_APP = '/app';
+export const REQUIRE_UNLOCK_ALL = false;
 
 // Mensajes destacados 
 export const MESSAGES_TEXT = [

@@ -3,7 +3,7 @@ import { useState } from "react";
 import Messages from "../components/LoveLetter/Messages";
 import MessagesHighlights from "../components/LoveLetter/MessagesHighlights"; // ⬅ nuevo import
 
-export default function Page0({ onOpenLetter }) {
+export default function Page0({ onOpenLetter, onOpenConversation, onOpenHighlights }) {
   const [showMessages, setShowMessages] = useState(false);
   const [showHighlights, setShowHighlights] = useState(false);
 
@@ -39,15 +39,13 @@ export default function Page0({ onOpenLetter }) {
           role="button"
           tabIndex={0}
           aria-label="Abrir conversación"
-          onClick={() => setShowMessages(true)}
-          onKeyDown={(e) =>
-            (e.key === "Enter" || e.key === " ") && setShowMessages(true)
-          }
+          onClick={() => { setShowMessages(true); onOpenConversation?.(); }}
+          onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (setShowMessages(true), onOpenConversation?.())}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M4 6h12a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3H9l-4 3 1.2-3H4a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3z"
-                    stroke="currentColor" strokeWidth="2" fill="none" strokeLinejoin="round" strokeLinecap="round" />
+                stroke="currentColor" strokeWidth="2" fill="none" strokeLinejoin="round" strokeLinecap="round" />
             </svg>
             <div>
               <div style={{ fontWeight: 800 }}>Nuestra primera conversación</div>
@@ -62,10 +60,8 @@ export default function Page0({ onOpenLetter }) {
           role="button"
           tabIndex={0}
           aria-label="Abrir destacados"
-          onClick={() => setShowHighlights(true)}
-          onKeyDown={(e) =>
-            (e.key === "Enter" || e.key === " ") && setShowHighlights(true)
-          }
+          onClick={() => { setShowHighlights(true); onOpenHighlights?.(); }}
+          onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (setShowHighlights(true), onOpenHighlights?.())}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true">

@@ -312,3 +312,44 @@ select option {
   background: #dcf8c6;
   color: #222;
 }
+/* Overlay a negro (ya lo tenías) */
+.blackout {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  transition: opacity 2s ease;
+  z-index: 9999;     /* cubre todo */
+  pointer-events: none;
+}
+.blackout.show { opacity: 1; }
+
+/* Mensaje centrado por encima del blackout con fade in/out */
+.love-msg {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transition: opacity .35s ease;
+  z-index: 10000;    /* por encima del blackout */
+  pointer-events: none;
+}
+.love-msg.show { opacity: 1; }
+.love-msg.hide { opacity: 0; }
+
+.love-msg-box {
+  color: #fff;
+  font-weight: 800;
+  text-align: center;
+  font-size: clamp(20px, 6vw, 42px);
+  line-height: 1.2;
+  padding: 16px 24px;
+  border-radius: 14px;
+  text-shadow: 0 2px 10px rgba(0,0,0,.6);
+}
+
+/* Cuando debe aparecer la barra inferior encima del negro */
+.slides-nav.nav-top {
+  z-index: 10001;    /* mayor que el blackout (9999) y que el mensaje (10000) */
+}
