@@ -9,7 +9,7 @@ export const REQUIRE_UNLOCK_ALL = false;
 
 // Mensajes destacados 
 export const MESSAGES_TEXT = [
-  "10/3/23 21:19 - Pablo: Tengo que ir mañana al Ikea a mirar unas cosas, ¿quieres venirte y merendamos por allí? Tú tienes que comprar algo?",
+  "10/3/23 21:19 - Pablo: Tengo que ir mañana al Ikea a mirar unas cosas, ¿quieres venirte y merendamos por allí? Tú tienes que comprar algo? ( Aqui merendamos en el Ikea jeje )",
   "10/12/23 07:17 - Pablo: Rocío XD, tú eres única ya en mi vida XD, pase lo que pase eres única xd",
   "10/16/23 15:32 - Pablo: Gracias por haber aparecido en mi vida pendeja",
   "10/20/23 18:22 - Rocio: Eres lo mejor que me ha pasado 💕",

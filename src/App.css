@@ -353,3 +353,90 @@ select option {
 .slides-nav.nav-top {
   z-index: 10001;    /* mayor que el blackout (9999) y que el mensaje (10000) */
 }
+/* ---------- Parallax Solar ---------- */
+.parallax-root{
+  position:fixed; inset:0; margin:auto; display:grid; place-items:center;
+  pointer-events:none; z-index:10000;
+  --tiltX: 0deg; --tiltY: 0deg;
+}
+.parallax-camera{ width:100%; height:100%; perspective:950px; perspective-origin:50% 50%; }
+.parallax-scene{
+  width:100%; height:100%;
+  transform-style:preserve-3d; transform-origin:50% 50% 0;
+  /* parallax con el puntero */
+  transform: rotateX(var(--tiltX)) rotateY(var(--tiltY));
+}
+
+/* --- estrellas (3 capas) --- */
+.stars-layer{
+  position:absolute; left:50%; top:50%;
+  width:100%; height:100%;
+  transform-style:preserve-3d; transform-origin:50% 50% 0;
+  transform: translate(-50%,-50%) translateZ(var(--z)) scale(var(--scale));
+  opacity:.9; pointer-events:none;
+}
+.star-dot{
+  position:absolute; left:50%; top:50%;
+  background:#fff; border-radius:50%;
+  box-shadow:0 0 6px rgba(255,255,255,.8);
+}
+
+/* --- sol --- */
+.sun-2d{ position:absolute; left:50%; top:50%; translate:-50% -50%; }
+.sun-core{
+  display:grid; place-items:center;
+  width:clamp(44px,8vw,72px); height:clamp(44px,8vw,72px); border-radius:50%;
+  background: radial-gradient(circle at 35% 35%, #fff 0%, #ffd2e0 40%, #ff5d8f 80%);
+  color:#fff; font-size:clamp(18px,4.5vw,28px); font-weight:900;
+  text-shadow:0 2px 12px rgba(0,0,0,.3);
+  box-shadow:0 0 40px 12px rgba(255, 93, 143, .35);
+}
+.sun-glow{ position:absolute; inset:-30%; border-radius:50%;
+  background: radial-gradient(circle, rgba(255,93,143,.25), transparent 60%);
+  filter:blur(8px); pointer-events:none; }
+
+/* --- anillos: profundidad + giro propio --- */
+.ring3d{
+  position:absolute; left:50%; top:50%;
+  transform-style:preserve-3d; transform-origin:50% 50% 0;
+  transform: translate(-50%,-50%) translateZ(var(--z));
+}
+.ring-spin{
+  position:absolute; inset:0;
+  transform-style:preserve-3d; transform-origin:50% 50% 0;
+  transform: rotateX(var(--tilt));
+  animation: ringSpin linear infinite;
+}
+
+.ring-line{
+  position:absolute; inset:0; border-radius:50%;
+  border:1px dashed rgba(255,255,255,.32);
+}
+
+/* --- planetas + etiquetas --- */
+.arm{
+  position:absolute; left:50%; top:50%; translate:-50% -50%;
+  transform-origin:50% 50% 0; transform-style:preserve-3d;
+  animation: armSpin linear infinite;  /* gira con el anillo */
+}
+@keyframes armSpin{ from{ rotate:var(--start); } to{ rotate:calc(var(--start) + 360deg); } }
+
+.planet{ transform: translateY(var(--r)); transform-style:preserve-3d; }
+.dot{
+  display:inline-block; border-radius:999px; margin-right:8px;
+  background: radial-gradient(circle at 35% 35%, #fff, #c8e1ff);
+  box-shadow: 0 0 10px rgba(164,211,255,.5), 0 12px 20px rgba(0,0,0,.35);
+}
+
+/* Mantener texto horizontal y mirando a cámara */
+.label-rot{ display:inline-block; transform-style:preserve-3d;
+  animation: labelCounter linear infinite; }
+@keyframes labelCounter{ from{ rotate:0deg; } to{ rotate:-360deg; } }
+
+.label-face{
+  display:inline-block; color:#fff; font-weight:800; white-space:nowrap;
+  text-shadow:0 1px 2px rgba(0,0,0,.35), 0 0 12px rgba(255,255,255,.18);
+  /* billboarding respecto al tilt (parallax) */
+  transform: rotateY(calc(-1 * var(--tiltY))) rotateX(calc(-1 * var(--tiltX)));
+  transform-style:preserve-3d;
+}
