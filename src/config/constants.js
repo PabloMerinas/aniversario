@@ -6,6 +6,7 @@ export const STORAGE_KEY_UNLOCKED = "aniversario_unlocked";
 export const STORAGE_UNLOCKED_VALUE = '1';
 export const ROUTE_APP = '/app';
 export const REQUIRE_UNLOCK_ALL = false;
+export const START_PAGE = 3;
 
 // Mensajes destacados 
 export const MESSAGES_TEXT = [
@@ -126,3 +127,20 @@ export const FLOWER_CONFIG = {
   FLOAT_RATIO: 0.2,
   FLOAT_MS: 5500,
 };
+// src/config/constants.js
+function importAll(r) {
+  return r.keys()
+    .sort((a, b) => {
+      const na = parseInt(a.match(/\d+/)?.[0] ?? 0, 10);
+      const nb = parseInt(b.match(/\d+/)?.[0] ?? 0, 10);
+      return na - nb;
+    })
+    .map(r);
+}
+
+// 👇 true = busca también en subcarpetas; regex acepta .jpg o .jpeg (case-insensitive)
+export const GALLERY_IMAGES = importAll(
+  require.context('../assets/images', true, /gallery\d+\.(jpe?g)$/i)
+);
+export const GALLERY_CAPTION =
+  "Porque de todas las personas, es contigo con quien quiero estar 💖";

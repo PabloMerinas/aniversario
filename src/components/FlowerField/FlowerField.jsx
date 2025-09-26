@@ -31,7 +31,7 @@ function rand(a, b) { return a + Math.random() * (b - a); }
 function shuffle(a){ for (let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
 const pick = (arr,i)=>arr[i % arr.length];
 
-const CAPTION = "Por que de todas nuestras flores, tu eres la mas bonita <3";
+const CAPTION = "Por que de todas nuestras flores, tu eres la mas bonita 💖";
 
 export default function FlowerField() {
   const [appear, setAppear] = useState(false);
