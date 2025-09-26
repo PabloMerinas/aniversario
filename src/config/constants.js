@@ -1,4 +1,4 @@
-import audioTeQuiero from "../assests/audio/te-quiero.ogg";
+import audioTeQuiero from "../assets/audio/te-quiero.ogg";
 // TODO export const ANIVERSARIO_DATE = new Date("2025-10-11T00:00:00"); 
 export const ANIVERSARIO_DATE = new Date("2025-09-11T00:00:00"); 
 export const ANIVERSARIO_TEXTO = "11 de octubre de 2025";
@@ -95,3 +95,34 @@ export const GALAXY_WORDS = [
   "Amor", "Risas", "Aventuras", "Confianza", "Café",
   "Abrazos", "Playlist", "Nosotros", "Sueños", "Tú"
 ];
+// === FLORES: cubrir toda la pantalla con crecimiento lento ===
+export const FLOWER_CONFIG = {
+  // Reparto: muchas celdas para cubrir bien (cols*rows ≈ COUNT)
+  COUNT: 80,          // súbelo a 80 si quieres aún más denso
+  GRID_COLS: 10,
+  GRID_ROWS: 7,
+  JITTER_X: 2.5,      // % de jitter dentro de cada celda
+  JITTER_Y: 2.5,
+
+  // Área util (en % del viewport)
+  X_MIN: 3,  X_MAX: 97,
+  Y_MIN: 6,  Y_MAX: 98,   // << prácticamente todo el alto
+
+  // Tamaños RELATIVOS AL VIEWPORT (se convierten a px en el componente)
+  SIZE_VH_MIN: 10,        // 10% de la altura de pantalla
+  SIZE_VH_MAX: 18,        // 18% de la altura de pantalla
+  SCALE_MIN: 0.95,
+  SCALE_MAX: 3.15,
+  ROT_MIN: -12,
+  ROT_MAX: 12,
+
+  // Timings (más calmado)
+  BASE_DELAY: 300,        // ms antes de la primera
+  STAGGER_MS: 180,        // ms entre flor y flor
+  RAND_DELAY: 100,        // variación
+  GROW_MS: 1100,          // duración del “crecer”
+
+  // Algunas flotan muy sutilmente (para dar vida sin coste)
+  FLOAT_RATIO: 0.2,
+  FLOAT_MS: 5500,
+};

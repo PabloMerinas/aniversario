@@ -7,12 +7,16 @@ import { GALAXY_WORDS } from "../../config/constants";
  * - Starfield en <canvas> fullscreen.
  * - Sistema solar centrado y responsivo (auto-calculado).
  * - Los anillos giran sobre sí mismos.
- * - El texto mira a cámara.
+ * - El texto mira a cámara (siempre de frente).
  * - Captura pointer/touch para que no haya clics por debajo.
+ * - Aparición suave al montar (fade-in).
  */
 export default function WordGalaxy() {
   const rootRef = useRef(null);
   const canvasRef = useRef(null);
+
+  // Aparición suave
+  const [appear, setAppear] = useState(false);
 
   // ===== viewport =====
   const [vw, setVw] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 800));
@@ -28,10 +32,16 @@ export default function WordGalaxy() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  // activar fade-in en el siguiente frame
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setAppear(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
   // ===== tamaño del sistema según pantalla (auto) =====
   const S = useMemo(() => {
     const short = Math.min(vw, vh);
-    const factor = vw < 640 ? 0.9 : 0.72;     // móvil vs desktop
+    const factor = vw < 640 ? 0.9 : 0.72; // móvil vs desktop
     const s = Math.round(short * factor);
     return Math.max(280, Math.min(s, 820));
   }, [vw, vh]);
@@ -86,39 +96,27 @@ export default function WordGalaxy() {
     };
 
     // Handlers: SOLO arrastrando
-    const onMouseDown = (e) => { dragging.current = true; e.preventDefault(); e.stopPropagation(); };
-    const onMouseMove = (e) => {
-      if (!dragging.current) return;
-      handlePos(e.clientX, e.clientY);
-      e.preventDefault(); e.stopPropagation();
-    };
-    const onMouseUp = (e) => { dragging.current = false; e.preventDefault(); e.stopPropagation(); };
+    const onMouseDown  = (e) => { dragging.current = true; e.preventDefault(); e.stopPropagation(); };
+    const onMouseMove  = (e) => { if (!dragging.current) return; handlePos(e.clientX, e.clientY); e.preventDefault(); e.stopPropagation(); };
+    const onMouseUp    = (e) => { dragging.current = false; e.preventDefault(); e.stopPropagation(); };
     const onMouseLeave = (e) => { dragging.current = false; e.preventDefault(); e.stopPropagation(); };
 
-    const onTouchStart = (e) => {
-      dragging.current = true;
-      const t = e.touches[0]; if (t) handlePos(t.clientX, t.clientY);
-      e.preventDefault(); e.stopPropagation();
-    };
-    const onTouchMove = (e) => {
-      if (!dragging.current) return;
-      const t = e.touches[0]; if (t) handlePos(t.clientX, t.clientY);
-      e.preventDefault(); e.stopPropagation();
-    };
-    const onTouchEnd = (e) => { dragging.current = false; e.preventDefault(); e.stopPropagation(); };
+    const onTouchStart = (e) => { dragging.current = true; const t = e.touches[0]; if (t) handlePos(t.clientX, t.clientY); e.preventDefault(); e.stopPropagation(); };
+    const onTouchMove  = (e) => { if (!dragging.current) return; const t = e.touches[0]; if (t) handlePos(t.clientX, t.clientY); e.preventDefault(); e.stopPropagation(); };
+    const onTouchEnd   = (e) => { dragging.current = false; e.preventDefault(); e.stopPropagation(); };
 
     // Bloquear clicks/taps (incl. click sintético tras touch)
     const blockClick = (e) => { e.preventDefault(); e.stopPropagation(); };
 
-    root.addEventListener("mousedown", onMouseDown, { passive: false });
-    root.addEventListener("mousemove", onMouseMove, { passive: false });
-    root.addEventListener("mouseup", onMouseUp, { passive: false });
-    root.addEventListener("mouseleave", onMouseLeave, { passive: false });
+    root.addEventListener("mousedown", onMouseDown,  { passive: false });
+    root.addEventListener("mousemove", onMouseMove,  { passive: false });
+    root.addEventListener("mouseup",   onMouseUp,    { passive: false });
+    root.addEventListener("mouseleave",onMouseLeave, { passive: false });
 
     root.addEventListener("touchstart", onTouchStart, { passive: false });
-    root.addEventListener("touchmove", onTouchMove, { passive: false });
-    root.addEventListener("touchend", onTouchEnd, { passive: false });
-    root.addEventListener("touchcancel", onTouchEnd, { passive: false });
+    root.addEventListener("touchmove",  onTouchMove,  { passive: false });
+    root.addEventListener("touchend",   onTouchEnd,   { passive: false });
+    root.addEventListener("touchcancel",onTouchEnd,   { passive: false });
 
     root.addEventListener("click", blockClick, true); // captura
 
@@ -138,7 +136,7 @@ export default function WordGalaxy() {
     };
   }, []);
 
-  // ===== STARFIELD en canvas (igual que antes, súper rápido) =====
+  // ===== STARFIELD en canvas =====
   useEffect(() => {
     const cnv = canvasRef.current;
     if (!cnv) return;
@@ -213,14 +211,13 @@ export default function WordGalaxy() {
   return (
     <div
       ref={rootRef}
-      className="wg-root"
+      className={`wg-root galaxy-appear ${appear ? "show" : ""}`}
       style={{
         position: "fixed",
         inset: 0,
         zIndex: 10000,         // nav está por encima (10001)
-        // IMPORTANTE: capturamos eventos aquí para bloquear clics abajo
-        pointerEvents: "auto",
-        touchAction: "none",   // evita scroll/zoom por gestos
+        pointerEvents: "auto", // bloquea clics debajo
+        touchAction: "none",
         userSelect: "none",
         cursor: "grab",
         "--tiltX": "0deg",
@@ -228,7 +225,7 @@ export default function WordGalaxy() {
       }}
       aria-hidden="true"
     >
-      {/* Estrellas fullscreen (canvas) - no captura eventos */}
+      {/* Estrellas fullscreen (canvas) */}
       <canvas
         ref={canvasRef}
         style={{
@@ -327,15 +324,17 @@ export default function WordGalaxy() {
                   }}
                 >
                   <div
+                    className="ring-spin"
                     style={{
                       position: "absolute",
                       inset: 0,
                       transformStyle: "preserve-3d",
-                      transform: `rotateX(${cfg.tilt}deg)`,
+                      "--tilt": `${cfg.tilt}deg`,
                       animation: `wgRingSpin ${period} linear infinite`,
                       willChange: "transform",
                     }}
                   >
+                    {/* guía (orbita) */}
                     <span
                       style={{
                         position: "absolute",
@@ -358,6 +357,7 @@ export default function WordGalaxy() {
                             top: "50%",
                             transform: `translate(-50%, -50%) rotate(${start}deg)`,
                             transformOrigin: "50% 50%",
+                            "--start": `${start}deg`,   // pasamos el ángulo a CSS
                           }}
                         >
                           <div
@@ -382,16 +382,27 @@ export default function WordGalaxy() {
                               }}
                             />
                             <span
+                              className="label-outer"
                               style={{
-                                color: "#fff",
-                                fontWeight: 800,
-                                textShadow:
-                                  "0 1px 2px rgba(0,0,0,.35), 0 0 12px rgba(255,255,255,.18)",
-                                transform:
-                                  "rotateY(calc(-1 * var(--tiltY))) rotateX(calc(-1 * var(--tiltX)))",
+                                // contrarrotación sincronizada con el anillo (solo aquí)
+                                animation: `wgCounterSpin ${period} linear infinite`,
+                                transform: "rotateX(calc(-1 * var(--tilt)))", // anula tilt del anillo
                               }}
                             >
-                              {w}
+                              <span
+                                className="label-face"
+                                style={{
+                                  color: "#fff",
+                                  fontWeight: 800,
+                                  textShadow:
+                                    "0 1px 2px rgba(0,0,0,.35), 0 0 12px rgba(255,255,255,.18)",
+                                  // endereza: cancela el ángulo de órbita + parallax
+                                  transform:
+                                    "rotateZ(calc(-1 * var(--start))) rotateY(calc(-1 * var(--tiltY))) rotateX(calc(-1 * var(--tiltX))) translateZ(0.5px)",
+                                }}
+                              >
+                                {w}
+                              </span>
                             </span>
                           </div>
                         </div>
@@ -404,14 +415,6 @@ export default function WordGalaxy() {
           </div>
         </div>
       </div>
-
-      {/* keyframes */}
-      <style>{`
-        @keyframes wgRingSpin {
-          from { transform: rotateX(var(--tilt, 0deg)) rotateZ(0deg); }
-          to   { transform: rotateX(var(--tilt, 0deg)) rotateZ(360deg); }
-        }
-      `}</style>
     </div>
   );
 }
