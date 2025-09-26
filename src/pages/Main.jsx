@@ -2,12 +2,11 @@
 import { useRef, useState, useEffect } from "react";
 import LoveLetter from "../components/LoveLetter/LoveLetter";
 import Page0 from "./Page0";
-import { REQUIRE_UNLOCK_ALL, START_PAGE } from "../config/constants";
+import { REQUIRE_UNLOCK_ALL, START_PAGE, TOTAL_PAGES } from "../config/constants";
 import WordGalaxy from "../components/GalaxyWords/WordGalaxy";
 import FlowerField from "../components/FlowerField/FlowerField";
 import PhotoGallery from "../components/PhotoGallery/PhotoGallery";
-
-const TOTAL_PAGES = 4;
+import Final from "../components/Final/Final";
 
 export default function Main() {
   const safeStart = Number.isInteger(START_PAGE)
@@ -194,40 +193,43 @@ export default function Main() {
           <div style={{ color: "#fff" }}></div>
         ) : page === 2 ? (
           <div style={{ color: "#fff" }}></div>
-        ) : (
-          // 👉 Página 3: la galería va dentro de la viewport (centrada, sin scroll)
+        ) : page === 3 ? (
           <PhotoGallery
             caption="Porque de todas las personas, es contigo con quien quiero estar 💖"
             autoplay={true}
-            speed={80}   // si lo quieres un pelín más rápido
+            speed={80}
             peek={true}
           />
+        ) : (
+          <Final />
         )}
       </div>
 
-      {/* NAV INFERIOR */}
-      <div className={`slides-nav ${navOnTop ? "nav-top" : ""}`} role="navigation" aria-label="Navegación de páginas">
-        <div className="nav-row">
-          {page !== 0 && (
-            <button className="nav-btn" onClick={prev} aria-label="Página anterior">
+      {/* NAV INFERIOR: oculto en la última página */}
+      {page !== TOTAL_PAGES - 1 && (
+        <div className={`slides-nav ${navOnTop ? "nav-top" : ""}`} role="navigation" aria-label="Navegación de páginas">
+          <div className="nav-row">
+            {page !== 0 && (
+              <button className="nav-btn" onClick={prev} aria-label="Página anterior">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            )}
+            <div className="nav-heart" aria-hidden>❤</div>
+            <button
+              className="nav-btn"
+              onClick={next}
+              disabled={page === TOTAL_PAGES - 1 || (page === 0 && !canAdvanceFromPage0)}
+              aria-label="Página siguiente"
+            >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
-          )}
-          <div className="nav-heart" aria-hidden>❤</div>
-          <button
-            className="nav-btn"
-            onClick={next}
-            disabled={page === TOTAL_PAGES - 1 || (page === 0 && !canAdvanceFromPage0)}
-            aria-label="Página siguiente"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* MODAL CARTA */}
       {showLetter && (
@@ -262,6 +264,8 @@ export default function Main() {
       {/* OVERLAYS */}
       {page === 1 && showGalaxy && <WordGalaxy leaving={galaxyLeaving} />}
       {page === 2 && <FlowerField />}
+  {/* ...existing code... (elimina Final duplicado) */}
+
     </div>
   );
 }

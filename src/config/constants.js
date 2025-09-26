@@ -6,7 +6,8 @@ export const STORAGE_KEY_UNLOCKED = "aniversario_unlocked";
 export const STORAGE_UNLOCKED_VALUE = '1';
 export const ROUTE_APP = '/app';
 export const REQUIRE_UNLOCK_ALL = false;
-export const START_PAGE = 3;
+export const START_PAGE = 0;
+export const TOTAL_PAGES = 5;
 
 // Mensajes destacados 
 export const MESSAGES_TEXT = [
@@ -93,8 +94,8 @@ export const GALLERY_PHOTOS = [
 
 // Palabras para la galaxia
 export const GALAXY_WORDS = [
-  "Amor", "Risas", "Aventuras", "Confianza", "Café",
-  "Abrazos", "Playlist", "Nosotros", "Sueños", "Tú"
+  "Amor", "Cariño", "Un futuro juntos", "Confianza", "Putiazos",
+  "Abrazos", "Bachatita", "Nosotros", "Un mishi", "Tú"
 ];
 // === FLORES: cubrir toda la pantalla con crecimiento lento ===
 export const FLOWER_CONFIG = {

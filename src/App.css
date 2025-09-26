@@ -957,3 +957,33 @@ select option {
   opacity: 1;
   transform: translate(-50%, 0);     /* sube suavemente manteniendo centrado */
 }
+
+/* ===== Final Page ===== */
+.final-wrap {
+  position: relative;
+  min-height: 80vh;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  text-align: center;
+}
+.final-title {
+  margin: 0;
+  font-weight: 900;
+  font-size: clamp(28px, 6vw, 56px);
+  line-height: 1.05;
+  background: linear-gradient(270deg, #ff4d6d, #ffafcc, #a2d2ff, #bde0fe, #ff4d6d);
+  background-size: 800% 800%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: titleGradient 12s ease infinite;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.25));
+}
+.final-sub {
+  margin: 14px 0 0;
+  font-size: clamp(16px, 3.2vw, 22px);
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0,0,0,.55);
+  opacity: .95;
+}
