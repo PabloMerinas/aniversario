@@ -6,7 +6,7 @@ export const STORAGE_KEY_UNLOCKED = "aniversario_unlocked";
 export const STORAGE_UNLOCKED_VALUE = '1';
 export const ROUTE_APP = '/app';
 export const REQUIRE_UNLOCK_ALL = false;
-export const START_PAGE = 0;
+export const START_PAGE = 2;
 export const TOTAL_PAGES = 5;
 
 // Mensajes destacados 
@@ -100,7 +100,7 @@ export const GALAXY_WORDS = [
 // === FLORES: cubrir toda la pantalla con crecimiento lento ===
 export const FLOWER_CONFIG = {
   // Reparto: muchas celdas para cubrir bien (cols*rows ≈ COUNT)
-  COUNT: 80,          // súbelo a 80 si quieres aún más denso
+  COUNT: 40,          // súbelo a 80 si quieres aún más denso
   GRID_COLS: 10,
   GRID_ROWS: 7,
   JITTER_X: 2.5,      // % de jitter dentro de cada celda
@@ -128,6 +128,16 @@ export const FLOWER_CONFIG = {
   FLOAT_RATIO: 0.2,
   FLOAT_MS: 5500,
 };
+export const FLOWER_CONFIG_PC = {
+  ...FLOWER_CONFIG,
+  COUNT: 80,
+  STAGGER_MS: 150,
+};
+export const FLOWER_CONFIG_MOBILE = {
+  ...FLOWER_CONFIG,
+  COUNT: 14,
+  STAGGER_MS: 30,
+};
 // src/config/constants.js
 function importAll(r) {
   return r.keys()
@@ -145,3 +155,7 @@ export const GALLERY_IMAGES = importAll(
 );
 export const GALLERY_CAPTION =
   "Porque de todas las personas, es contigo con quien quiero estar 💖";
+
+// En tu lógica de configuración:
+
+
