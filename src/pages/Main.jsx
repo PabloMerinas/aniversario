@@ -134,13 +134,7 @@ export default function Main() {
     pendingNavRef.current = pendingNavTo;
   }, [pendingNavTo]);
 
-  // Gestos swipe
-  const touch = useRef({ x: 0 });
-  const onTouchStart = (e) => { touch.current.x = e.touches[0].clientX; };
-  const onTouchEnd = (e) => {
-    const dx = e.changedTouches[0].clientX - touch.current.x;
-    if (Math.abs(dx) > 40) (dx < 0 ? next() : prev());
-  };
+
 
   // Navegación
   const prev = () => {
@@ -195,7 +189,7 @@ export default function Main() {
       <div className="overlay" />
 
       {/* CONTENIDO CENTRADO EN CADA PÁGINA */}
-      <div className="slides-viewport" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+  <div className="slides-viewport">
         {page === 0 ? (
           <Page0
             onOpenLetter={() => { setShowLetter(true); setVisited(v => ({ ...v, letter: true })); }}
