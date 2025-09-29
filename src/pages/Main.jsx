@@ -177,6 +177,10 @@ export default function Main() {
     setPage((p) => Math.min(TOTAL_PAGES - 1, p + 1));
   };
 
+  useEffect(() => {
+    document.body.classList.toggle('page-2', page === 2);
+  }, [page]);
+
   return (
     <div className={`slides-root lock-bg ${darkBg ? "dark" : ""}`}>
       <div className="overlay" />
@@ -264,8 +268,6 @@ export default function Main() {
       {/* OVERLAYS */}
       {page === 1 && showGalaxy && <WordGalaxy leaving={galaxyLeaving} />}
       {page === 2 && <FlowerField />}
-  {/* ...existing code... (elimina Final duplicado) */}
-
     </div>
   );
 }

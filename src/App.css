@@ -836,26 +836,24 @@ select option {
   background: #000 !important;
 }
 
+/* Asegura que el nav esté siempre por encima de las flores en la página 2 */
+body .slides-nav {
+  z-index: 100;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
 
+/* En la página de flores (page 2), fuerza un z-index muy alto */
+body .slides-nav {
+  z-index: 99999;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* Si tienes una clase específica para la página 2, mejor usa: */
+body.page-2 .slides-nav {
+  z-index: 99999;
+}
 
 /* ===== PhotoGallery ===== */
 .gallery-root-mini {
