@@ -9,6 +9,8 @@ import PhotoGallery from "../components/PhotoGallery/PhotoGallery";
 import Final from "../components/Final/Final";
 
 export default function Main() {
+  // Estado para forzar el reinicio de las flores
+  const [flowerReset, setFlowerReset] = useState(0);
   const safeStart = Number.isInteger(START_PAGE)
     ? Math.max(0, Math.min(TOTAL_PAGES - 1, START_PAGE))
     : 0;
@@ -37,6 +39,13 @@ export default function Main() {
   // Fondo más oscuro en páginas 1 y 2 (solo clase para estilos si la usas)
   const [darkBg, setDarkBg] = useState(false);
   useEffect(() => { setDarkBg(page === 1 || page === 2); }, [page]);
+
+  // Cuando entras en la página de flores, fuerza el reset
+  useEffect(() => {
+    if (page === 2) {
+      setFlowerReset(r => r + 1);
+    }
+  }, [page]);
 
   const allVisited = visited.letter && visited.convo && visited.highlights;
   const canAdvanceFromPage0 = REQUIRE_UNLOCK_ALL ? allVisited : true;
@@ -266,8 +275,8 @@ export default function Main() {
       )}
 
       {/* OVERLAYS */}
-      {page === 1 && showGalaxy && <WordGalaxy leaving={galaxyLeaving} />}
-      {page === 2 && <FlowerField />}
+  {page === 1 && showGalaxy && <WordGalaxy leaving={galaxyLeaving} />}
+  {page === 2 && <FlowerField key={flowerReset} />}
     </div>
   );
 }
