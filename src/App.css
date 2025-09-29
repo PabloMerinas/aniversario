@@ -748,9 +748,9 @@ select option {
   left: 50%;
   top: clamp(12px, 5vh, 56px);
   transform: translateX(-50%) translateZ(0);
-  max-width: min(92vw, 1100px);
-
-  padding: 10px 16px;
+  max-width: 95vw;
+  width: 100%;
+  padding: 10px 8vw;
   border-radius: 12px;
 
   /* 👇 Fondo suave para contraste */
@@ -759,7 +759,7 @@ select option {
 
   text-align: center;
   font-weight: 800;
-  font-size: clamp(16px, 3.2vw, 28px);
+  font-size: clamp(16px, 4vw, 28px);
   line-height: 1.25;
   color: #fff;
   text-shadow: 0 2px 8px rgba(0, 0, 0, .55);
@@ -768,6 +768,15 @@ select option {
   transition: opacity 400ms ease;
   pointer-events: none;
   will-change: opacity, transform;
+}
+
+@media (max-width: 600px) {
+  .flower-caption {
+    font-size: clamp(15px, 5vw, 22px);
+    max-width: 99vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
 }
 
 .flower-caption.show {
@@ -938,16 +947,27 @@ body.page-2 .slides-nav {
   transition: opacity 1s ease, transform 1s ease;
 
   font-weight: 800;
-  font-size: clamp(16px, 3vw, 24px);
+  font-size: clamp(16px, 4vw, 26px);
   line-height: 1.3;
   color: #fff;
   text-align: center;
 
-  padding: 8px 14px;
+  max-width: 95vw;
+  width: 100%;
+  padding: 8px 8vw;
   border-radius: 12px;
   background: rgba(0,0,0,.45);
   backdrop-filter: blur(4px) saturate(120%);
   text-shadow: 0 2px 6px rgba(0,0,0,.55);
+}
+
+@media (max-width: 600px) {
+  .gallery-caption {
+    font-size: clamp(15px, 5vw, 22px);
+    max-width: 99vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
 }
 
 /* AL MOSTRAR */

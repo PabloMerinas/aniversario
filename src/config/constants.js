@@ -159,3 +159,4 @@ export const GALLERY_CAPTION =
 // En tu lógica de configuración:
 
 
+export const FINALLY_TEXT = "A por muchos años más, porque a tu lado hasta las peleas merecen la pena, porque contigo vivo la vida que quiero, porque cada día me enseñas, porque te admiro y porque eres increíble 💖";

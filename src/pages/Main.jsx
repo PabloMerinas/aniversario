@@ -270,7 +270,7 @@ export default function Main() {
 
       {/* OVERLAYS */}
   {page === 1 && showGalaxy && <WordGalaxy leaving={galaxyLeaving} />}
-  {page === 2 && <FlowerField key={flowerReset} />}
+  {page === 2 ? <FlowerField key={flowerReset} /> : null}
     </div>
   );
 }
