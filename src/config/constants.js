@@ -6,7 +6,7 @@ export const STORAGE_KEY_UNLOCKED = "aniversario_unlocked";
 export const STORAGE_UNLOCKED_VALUE = '1';
 export const ROUTE_APP = '/app';
 export const REQUIRE_UNLOCK_ALL = false;
-export const START_PAGE = 2;
+export const START_PAGE = 0;
 export const TOTAL_PAGES = 5;
 
 // Mensajes destacados 

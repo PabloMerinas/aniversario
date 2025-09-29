@@ -9,7 +9,13 @@ import {
   ROUTE_APP,
 } from './config/constants';
 
+
 export default function App() {
+  // Si la URL es exactamente http://localhost:3000/ borra el login guardado
+  if (typeof window !== "undefined" && window.location.origin + window.location.pathname === "http://localhost:3000/") {
+    localStorage.removeItem(STORAGE_KEY_UNLOCKED);
+  }
+
   const [isUnlocked, setIsUnlocked] = useState(
     localStorage.getItem(STORAGE_KEY_UNLOCKED) === STORAGE_UNLOCKED_VALUE
   );
