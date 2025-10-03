@@ -61,7 +61,7 @@ export default function App() {
         preload="auto"
         style={{ display: "none" }}
       />
-      <BrowserRouter>
+      <BrowserRouter basename="/aniversario">
         <Routes>
           <Route
             path="/"
