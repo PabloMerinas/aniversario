@@ -24,16 +24,27 @@ const QUESTIONS = [
     answer: "Sushi",
   },
 ];
+
 export default function LockScreen({ onUnlock }) {
   const navigate = useNavigate();
   const [values, setValues] = useState({});
   const [error, setError] = useState("");
   const [ok, setOk] = useState(false);
 
+  // Cálculo dinámico del título (se recomputa en cada render)
+  const now = new Date();
+  const diffMs = ANIVERSARIO_DATE - now;
+  const daysLeft = diffMs > 0 ? Math.ceil(diffMs / (1000 * 60 * 60 * 24)) : 0;
+  const title =
+    daysLeft > 0
+      ? `Feliz ${"casi ".repeat(daysLeft)}aniversario!`
+      : "Feliz aniversario!";
+
   const allAnswered = useMemo(
     () => QUESTIONS.every(q => values[q.id] && String(values[q.id]).trim() !== ""),
     [values]
   );
+
   const handleSuccess = () => {
     const now = new Date();
     if (now < ANIVERSARIO_DATE) {
@@ -44,10 +55,9 @@ export default function LockScreen({ onUnlock }) {
       setError(`Aún no es el momento… Vuelve el ${ANIVERSARIO_TEXTO} (faltan ${days} día${plural}).`);
       return;
     }
-    onUnlock();                             // ← actualiza estado en App
-    navigate(ROUTE_APP, { replace: true }); // ← y ahora sí navega
+    onUnlock();
+    navigate(ROUTE_APP, { replace: true });
   };
-
 
   const checkAnswers = () => {
     const wrong = QUESTIONS.find(q => {
@@ -69,7 +79,7 @@ export default function LockScreen({ onUnlock }) {
       <div className="overlay" />
 
       <div className="card">
-        <h1 className="gradient-title">Feliz aniversario!</h1>
+        <h1 className="gradient-title">{title}</h1>
         <p className="subtitle" style={{ textAlign: "center" }}>
           PRIMERO! Hay que comprobar que seas tu! Tendras que superar este TEST SUPERAVANZADO
         </p>
