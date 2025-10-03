@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/aniversario/static/css/main.f060c7af.css",
+    "main.css": "/aniversario/static/css/main.eb9b37e8.css",
     "main.js": "/aniversario/static/js/main.56d48755.js",
     "static/media/cancion-fondo.mp3": "/aniversario/static/media/cancion-fondo.944a03a1b75f91d47482.mp3",
     "static/media/roses1.png": "/aniversario/static/media/roses1.701c7c357defeb11014c.png",
@@ -38,11 +38,11 @@
     "static/media/gallery3.jpg": "/aniversario/static/media/gallery3.e368afb086b16323b2bd.jpg",
     "static/media/te-quiero.ogg": "/aniversario/static/media/te-quiero.036c10f1940a5d5f2451.ogg",
     "index.html": "/aniversario/index.html",
-    "main.f060c7af.css.map": "/aniversario/static/css/main.f060c7af.css.map",
+    "main.eb9b37e8.css.map": "/aniversario/static/css/main.eb9b37e8.css.map",
     "main.56d48755.js.map": "/aniversario/static/js/main.56d48755.js.map"
   },
   "entrypoints": [
-    "static/css/main.f060c7af.css",
+    "static/css/main.eb9b37e8.css",
     "static/js/main.56d48755.js"
   ]
 }
