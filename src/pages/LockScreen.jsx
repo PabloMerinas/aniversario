@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ROUTE_APP } from "../config/constants";
+import { ROUTE_APP, ANIVERSARIO_DATE, ANIVERSARIO_TEXTO } from "../config/constants";
 
 const QUESTIONS = [
   {
@@ -34,11 +34,20 @@ export default function LockScreen({ onUnlock }) {
     () => QUESTIONS.every(q => values[q.id] && String(values[q.id]).trim() !== ""),
     [values]
   );
-
   const handleSuccess = () => {
-    onUnlock();                            // ← actualiza estado en App
+    const now = new Date();
+    if (now < ANIVERSARIO_DATE) {
+      setOk(false);
+      const ms = ANIVERSARIO_DATE - now;
+      const days = Math.ceil(ms / (1000 * 60 * 60 * 24));
+      const plural = days === 1 ? "" : "s";
+      setError(`Aún no es el momento… Vuelve el ${ANIVERSARIO_TEXTO} (faltan ${days} día${plural}).`);
+      return;
+    }
+    onUnlock();                             // ← actualiza estado en App
     navigate(ROUTE_APP, { replace: true }); // ← y ahora sí navega
   };
+
 
   const checkAnswers = () => {
     const wrong = QUESTIONS.find(q => {

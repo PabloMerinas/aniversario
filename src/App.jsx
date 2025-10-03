@@ -9,19 +9,16 @@ import {
   ROUTE_APP,
 } from './config/constants';
 import cancionFondo from './assets/audio/cancion-fondo.mp3';
+import { ANIVERSARIO_DATE } from './config/constants';
 
 export default function App() {
-  // Si la URL es exactamente http://localhost:3000/ borra el login guardado
-  if (typeof window !== "undefined" && window.location.origin + window.location.pathname === "http://localhost:3000/") {
-    localStorage.removeItem(STORAGE_KEY_UNLOCKED);
-  }
-
+  // Estado de desbloqueo leído desde localStorage
   const [isUnlocked, setIsUnlocked] = useState(
     localStorage.getItem(STORAGE_KEY_UNLOCKED) === STORAGE_UNLOCKED_VALUE
   );
 
   const handleUnlock = useCallback(() => {
-    // guarda en storage y actualiza estado para forzar re-render
+    // Guarda en storage y actualiza estado para forzar re-render
     localStorage.setItem(STORAGE_KEY_UNLOCKED, STORAGE_UNLOCKED_VALUE);
     setIsUnlocked(true);
   }, []);
@@ -30,7 +27,7 @@ export default function App() {
   const audioRef = useRef(null);
 
   useEffect(() => {
-    // Intenta reproducir el audio tras la primera interacción del usuario
+    // Reproducir el audio tras la primera interacción del usuario
     const tryPlay = () => {
       if (audioRef.current) {
         audioRef.current.volume = 0.18;
@@ -50,6 +47,17 @@ export default function App() {
     };
   }, []);
 
+  // ¿Aún no ha llegado la fecha del aniversario?
+  const isBeforeAnniversary = new Date() < ANIVERSARIO_DATE;
+
+  // Si aún no es el aniversario y la app está "desbloqueada", fuerza el lock y limpia la misma clave usada para el unlock
+  useEffect(() => {
+    if (isBeforeAnniversary && isUnlocked) {
+      setIsUnlocked(false);
+      localStorage.removeItem(STORAGE_KEY_UNLOCKED);
+    }
+  }, [isBeforeAnniversary, isUnlocked]);
+
   return (
     <>
       {/* Audio de fondo global */}
@@ -61,20 +69,28 @@ export default function App() {
         preload="auto"
         style={{ display: "none" }}
       />
+      {/* Si despliegas en subcarpeta, deja el basename (p.ej. GitHub Pages) */}
       <BrowserRouter basename="/aniversario">
         <Routes>
+          {/* Login en "/" */}
           <Route
             path="/"
             element={
-              isUnlocked ? <Navigate to={ROUTE_APP} replace /> : <LockScreen onUnlock={handleUnlock} />
+              (isUnlocked && !isBeforeAnniversary)
+                ? <Navigate to={ROUTE_APP} replace />
+                : <LockScreen onUnlock={handleUnlock} />
             }
           />
+          {/* Ruta protegida de la app */}
           <Route
             path={ROUTE_APP}
             element={
-              isUnlocked ? <Main /> : <Navigate to="/" replace />
+              (isUnlocked && !isBeforeAnniversary)
+                ? <Main />
+                : <Navigate to="/" replace />
             }
           />
+          {/* Catch-all */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
