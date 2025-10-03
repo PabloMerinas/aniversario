@@ -1,6 +1,6 @@
 import audioTeQuiero from "../assets/audio/te-quiero.ogg";
 // TODO export const ANIVERSARIO_DATE = new Date("2025-10-11T00:00:00"); 
-export const ANIVERSARIO_DATE = new Date("2025-09-11T00:00:00"); 
+export const ANIVERSARIO_DATE = new Date("2025-10-11T00:00:00"); 
 export const ANIVERSARIO_TEXTO = "11 de octubre de 2025";
 export const STORAGE_KEY_UNLOCKED = "aniversario_unlocked";
 export const STORAGE_UNLOCKED_VALUE = '1';
