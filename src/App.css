@@ -286,7 +286,6 @@ select option {
   position: relative;
   width: 100%;
   min-height: 100dvh;
-  padding: 24px 16px calc(96px + env(safe-area-inset-bottom));
   display: grid;
   place-items: center;
 }
@@ -879,7 +878,6 @@ body.page-2 .slides-nav {
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  padding: 0 clamp(8px, 5vw, 80px);
 }
 
 @media (max-width: 740px) {
